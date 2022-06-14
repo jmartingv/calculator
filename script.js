@@ -25,5 +25,6 @@ const operate = (a, b, operator) => {
       break;
     case '*':
       return multiply(a, b);
+      break;
   }
 };
