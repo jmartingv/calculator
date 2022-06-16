@@ -10,10 +10,16 @@
 // Variables
 const display = document.querySelector('.display');
 const numBtns = document.querySelectorAll('.number');
+const opBtns = document.querySelectorAll('.operator');
+const equalBtn = document.querySelector('.equality');
 const delBtn = document.querySelector('#delete');
+const clearBtn = document.querySelector('#clear');
 
 let dispValue;
+let storedNumber;
+let currentOperator;
 
+// Number buttons functions
 numBtns.forEach((button) => {
   button.addEventListener('click', (e) => {
     if (display.innerHTML.length < 10) {
@@ -27,14 +33,29 @@ numBtns.forEach((button) => {
   });
 });
 
+// Delete button functions
 delBtn.addEventListener('click', () => {
-  display.innerHTML = display.innerHTML.slice(0, -1);
-  dispValue = display.innerHTML;
+  if (display.innerHTML.length > 0) {
+    display.innerHTML = display.innerHTML.slice(0, -1);
+    dispValue = display.innerHTML;
 
-  // Debugging
-  console.log(dispValue);
-  console.log(typeof dispValue);
+    // Debugging
+    console.log(dispValue);
+    console.log(typeof dispValue);
+  }
 });
+
+//Clear button functions
+clearBtn.addEventListener('click', () => {
+  display.innerHTML = '';
+});
+
+// Operator button functions
+opBtns.forEach((button) =>
+  button.addEventListener('click', (e) => {
+    console.log(e.target.id);
+  })
+);
 
 // Functions
 const add = (a, b) => a + b;
