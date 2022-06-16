@@ -7,6 +7,36 @@
  *  - operate function
  */
 
+// Variables
+const display = document.querySelector('.display');
+const numBtns = document.querySelectorAll('.number');
+const delBtn = document.querySelector('#delete');
+
+let dispValue;
+
+numBtns.forEach((button) => {
+  button.addEventListener('click', (e) => {
+    if (display.innerHTML.length < 10) {
+      display.innerHTML += e.target.innerHTML;
+      dispValue = display.innerHTML;
+
+      // Debugging
+      console.log(dispValue);
+      console.log(typeof dispValue);
+    }
+  });
+});
+
+delBtn.addEventListener('click', () => {
+  display.innerHTML = display.innerHTML.slice(0, -1);
+  dispValue = display.innerHTML;
+
+  // Debugging
+  console.log(dispValue);
+  console.log(typeof dispValue);
+});
+
+// Functions
 const add = (a, b) => a + b;
 const substract = (a, b) => a - b;
 const divide = (a, b) => a / b;
