@@ -17,14 +17,19 @@ const clearBtn = document.querySelector('#clear');
 
 let dispValue;
 let storedNumber;
-let currentOperator;
+let currentOperator = '';
+let newDisplay;
 
 // Number buttons functions
 numBtns.forEach((button) => {
   button.addEventListener('click', (e) => {
+    if (newDisplay) {
+      display.innerHTML = '';
+      newDisplay = false;
+    }
     if (display.innerHTML.length < 10) {
       display.innerHTML += e.target.innerHTML;
-      dispValue = display.innerHTML;
+      dispValue = Number(display.innerHTML);
 
       // Debugging
       console.log(dispValue);
@@ -37,7 +42,7 @@ numBtns.forEach((button) => {
 delBtn.addEventListener('click', () => {
   if (display.innerHTML.length > 0) {
     display.innerHTML = display.innerHTML.slice(0, -1);
-    dispValue = display.innerHTML;
+    dispValue = Number(display.innerHTML);
 
     // Debugging
     console.log(dispValue);
@@ -48,14 +53,62 @@ delBtn.addEventListener('click', () => {
 //Clear button functions
 clearBtn.addEventListener('click', () => {
   display.innerHTML = '';
+  dispValue = Number(display.innerHTML);
+  storedNumber = undefined;
+  currentOperator = '';
 });
 
 // Operator button functions
 opBtns.forEach((button) =>
   button.addEventListener('click', (e) => {
-    console.log(e.target.id);
+    if (currentOperator == '') {
+      currentOperator = e.target.id;
+      storedNumber = Number(dispValue);
+      newDisplay = true;
+    } else {
+      storedNumber = operate(storedNumber, dispValue, currentOperator);
+      display.innerHTML = storedNumber;
+      currentOperator = e.target.id;
+      newDisplay = true;
+    }
   })
 );
+
+equalBtn.addEventListener('click', () => {
+  if (currentOperator == '') {
+    return;
+  }
+
+  if (dispValue == 0 && currentOperator == 'divide') {
+    display.innerHTML = "Can't divide by 0!";
+    dispValue = 0;
+    storedNumber = 0;
+    currentOperator = '';
+    return;
+  }
+
+  if (Number.isInteger(operate(storedNumber, dispValue, currentOperator))) {
+    display.innerHTML = `${operate(
+      storedNumber,
+      dispValue,
+      currentOperator
+    ).toFixed(0)}`;
+
+    storedNumber = Number(display.innerHTML);
+    dispValue = storedNumber;
+    newDisplay = true;
+  } else {
+    display.innerHTML = `${operate(
+      storedNumber,
+      dispValue,
+      currentOperator
+    ).toFixed(2)}`;
+
+    storedNumber = Number(display.innerHTML);
+    dispValue = storedNumber;
+    newDisplay = true;
+  }
+});
 
 // Functions
 const add = (a, b) => a + b;
@@ -65,16 +118,16 @@ const multiply = (a, b) => a * b;
 
 const operate = (a, b, operator) => {
   switch (operator) {
-    case '+':
+    case 'add':
       return add(a, b);
       break;
-    case '-':
+    case 'substract':
       return substract(a, b);
       break;
-    case '/':
+    case 'divide':
       return divide(a, b);
       break;
-    case '*':
+    case 'multiply':
       return multiply(a, b);
       break;
   }

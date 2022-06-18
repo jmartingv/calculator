@@ -24,7 +24,7 @@ main {
 .display {
   border: 1px solid blue;
   background-color: #ccc;
-  height: 40px;
+  height: 80px;
   width: 230px;
   margin: 20px;
   display: flex;
