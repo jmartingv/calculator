@@ -87,8 +87,15 @@ opBtns.forEach((button) =>
         return;
       }
 
-      storedNumber = operate(storedNumber, dispValue, currentOperator);
-      display.innerHTML = storedNumber.toFixed(2);
+      let temp = operate(storedNumber, dispValue, currentOperator);
+      if (Number.isInteger(temp)) {
+        storedNumber = operate(storedNumber, dispValue, currentOperator);
+        display.innerHTML = storedNumber.toFixed(0);
+      } else {
+        storedNumber = operate(storedNumber, dispValue, currentOperator);
+        display.innerHTML = storedNumber.toFixed(2);
+      }
+
       currentOperator = e.target.id;
       newDisplay = true;
     }
@@ -101,6 +108,8 @@ equalBtn.addEventListener('click', () => {
     return;
   }
 
+  let temp = operate(storedNumber, dispValue, currentOperator);
+
   if (dispValue == 0 && currentOperator == 'divide') {
     display.innerHTML = divZeroMsg;
     dispValue = 0;
@@ -110,21 +119,12 @@ equalBtn.addEventListener('click', () => {
     return;
   }
 
-  if (Number.isInteger(operate(storedNumber, dispValue, currentOperator))) {
-    display.innerHTML = `${operate(
-      storedNumber,
-      dispValue,
-      currentOperator
-    ).toFixed(0)}`;
-
+  if (Number.isInteger(temp)) {
+    display.innerHTML = `${temp.toFixed(0)}`;
     storedNumber = Number(display.innerHTML);
     newDisplay = true;
   } else {
-    display.innerHTML = `${operate(
-      storedNumber,
-      dispValue,
-      currentOperator
-    ).toFixed(2)}`;
+    display.innerHTML = `${temp.toFixed(2)}`;
 
     storedNumber = Number(display.innerHTML);
     newDisplay = true;
