@@ -21,6 +21,8 @@ let storedNumber;
 let currentOperator = '';
 let newDisplay;
 
+let divZeroMsg = "Can't divide by 0!";
+
 // Number buttons functions
 numBtns.forEach((button) => {
   button.addEventListener('click', (e) => {
@@ -42,6 +44,14 @@ numBtns.forEach((button) => {
 
 // Delete button functions
 delBtn.addEventListener('click', () => {
+  if (display.innerHTML == divZeroMsg) {
+    display.innerHTML = '';
+    dispValue = 0;
+    storedNumber = 0;
+    currentOperator = '';
+    return;
+  }
+
   if (display.innerHTML.length > 0) {
     display.innerHTML = display.innerHTML.slice(0, -1);
     dispValue = Number(display.innerHTML);
@@ -68,6 +78,15 @@ opBtns.forEach((button) =>
       storedNumber = Number(dispValue);
       newDisplay = true;
     } else {
+      if (dispValue == 0 && currentOperator == 'divide') {
+        display.innerHTML = divZeroMsg;
+        dispValue = 0;
+        storedNumber = 0;
+        currentOperator = '';
+        newDisplay = true;
+        return;
+      }
+
       storedNumber = operate(storedNumber, dispValue, currentOperator);
       display.innerHTML = storedNumber.toFixed(2);
       currentOperator = e.target.id;
@@ -83,10 +102,11 @@ equalBtn.addEventListener('click', () => {
   }
 
   if (dispValue == 0 && currentOperator == 'divide') {
-    display.innerHTML = "Can't divide by 0!";
+    display.innerHTML = divZeroMsg;
     dispValue = 0;
     storedNumber = 0;
     currentOperator = '';
+    newDisplay = true;
     return;
   }
 
