@@ -34,10 +34,6 @@ numBtns.forEach((button) => {
     if (display.innerHTML.length < 10) {
       display.innerHTML += e.target.innerHTML;
       dispValue = Number(display.innerHTML);
-
-      // Debugging
-      console.log(dispValue);
-      console.log(typeof dispValue);
     }
   });
 });
@@ -55,10 +51,6 @@ delBtn.addEventListener('click', () => {
   if (display.innerHTML.length > 0) {
     display.innerHTML = display.innerHTML.slice(0, -1);
     dispValue = Number(display.innerHTML);
-
-    // Debugging
-    console.log(dispValue);
-    console.log(typeof dispValue);
   }
 });
 
