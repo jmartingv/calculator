@@ -14,6 +14,7 @@ const opBtns = document.querySelectorAll('.operator');
 const equalBtn = document.querySelector('.equality');
 const delBtn = document.querySelector('#delete');
 const clearBtn = document.querySelector('#clear');
+const dotBtn = document.querySelector('.point');
 
 let dispValue;
 let storedNumber;
@@ -27,6 +28,7 @@ numBtns.forEach((button) => {
       display.innerHTML = '';
       newDisplay = false;
     }
+
     if (display.innerHTML.length < 10) {
       display.innerHTML += e.target.innerHTML;
       dispValue = Number(display.innerHTML);
@@ -67,13 +69,14 @@ opBtns.forEach((button) =>
       newDisplay = true;
     } else {
       storedNumber = operate(storedNumber, dispValue, currentOperator);
-      display.innerHTML = storedNumber;
+      display.innerHTML = storedNumber.toFixed(2);
       currentOperator = e.target.id;
       newDisplay = true;
     }
   })
 );
 
+// Equal button functionality
 equalBtn.addEventListener('click', () => {
   if (currentOperator == '') {
     return;
@@ -95,7 +98,6 @@ equalBtn.addEventListener('click', () => {
     ).toFixed(0)}`;
 
     storedNumber = Number(display.innerHTML);
-    dispValue = storedNumber;
     newDisplay = true;
   } else {
     display.innerHTML = `${operate(
@@ -105,11 +107,18 @@ equalBtn.addEventListener('click', () => {
     ).toFixed(2)}`;
 
     storedNumber = Number(display.innerHTML);
-    dispValue = storedNumber;
     newDisplay = true;
   }
 });
 
+// Dot button functionality
+dotBtn.addEventListener('click', () => {
+  if (display.innerHTML == '') {
+    display.innerHTML += '0.';
+  } else if (!display.innerHTML.match(/\./g)) {
+    display.innerHTML += '.';
+  }
+});
 // Functions
 const add = (a, b) => a + b;
 const substract = (a, b) => a - b;
